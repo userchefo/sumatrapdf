@@ -487,7 +487,7 @@ $(OS)\SumatraPDF.obj: $B\src\PsEngine.h $B\src\RenderCache.h $B\src\resource.h
 $(OS)\SumatraPDF.obj: $B\src\Search.h $B\src\Selection.h $B\src\SettingsStructs.h
 $(OS)\SumatraPDF.obj: $B\src\StressTesting.h $B\src\SumatraAbout.h $B\src\SumatraAbout2.h
 $(OS)\SumatraPDF.obj: $B\src\SumatraDialogs.h $B\src\SumatraPDF.h $B\src\SumatraProperties.h
-$(OS)\SumatraPDF.obj: $B\src\SumatraStartup.cpp $B\src\SumatraWindow.h $B\src\TableOfContents.h
+$(OS)\SumatraPDF.obj: $B\src\SumatraStartup.cpp $B\src\SumatraWindow.h $B\src\TableOfContents.h $B\src\Tabs.h
 $(OS)\SumatraPDF.obj: $B\src\TextSearch.h $B\src\TextSelection.h $B\src\Toolbar.h
 $(OS)\SumatraPDF.obj: $B\src\Translations.h $B\src\uia\Provider.h $B\src\utils\Allocator.h
 $(OS)\SumatraPDF.obj: $B\src\utils\BaseUtil.h $B\src\utils\CmdLineParser.h $B\src\utils\DbgHelpDyn.h
@@ -516,6 +516,10 @@ $(OS)\TableOfContents.obj: $B\src\utils\Allocator.h $B\src\utils\BaseUtil.h $B\s
 $(OS)\TableOfContents.obj: $B\src\utils\GdiPlusUtil.h $B\src\utils\GeomUtil.h $B\src\utils\Scoped.h
 $(OS)\TableOfContents.obj: $B\src\utils\SettingsUtil.h $B\src\utils\StrUtil.h $B\src\utils\UITask.h
 $(OS)\TableOfContents.obj: $B\src\utils\Vec.h $B\src\utils\WinUtil.h $B\src\WindowInfo.h
+$(OS)\Tabs.obj: $B\src\resource.h $B\src\SumatraPDF.h
+$(OS)\Tabs.obj: $B\src\TableOfContents.h $B\src\Tabs.h
+$(OS)\Tabs.obj: $B\src\WindowInfo.h
+$(OS)\Tabs.obj: $B\src\utils\BaseUtil.h $B\src\utils\WinUtil.h
 $(OS)\Tester.obj: $B\src\BaseEngine.h $B\src\Doc.h $B\src\EbookBase.h
 $(OS)\Tester.obj: $B\src\EbookFormatter.h $B\src\HtmlFormatter.h $B\src\MobiDoc.h
 $(OS)\Tester.obj: $B\src\mui\Mui.h $B\src\mui\MuiBase.h $B\src\mui\MuiButton.h

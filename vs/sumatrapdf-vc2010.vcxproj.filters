@@ -144,6 +144,9 @@
     <ClCompile Include="..\src\TableOfContents.cpp">
       <Filter>sumatra</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Tabs.cpp">
+      <Filter>sumatra</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\Tester.cpp">
       <Filter>sumatra</Filter>
     </ClCompile>
@@ -933,6 +936,9 @@
       <Filter>sumatra</Filter>
     </ClInclude>
     <ClInclude Include="..\src\TableOfContents.h">
+      <Filter>sumatra</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Tabs.h">
       <Filter>sumatra</Filter>
     </ClInclude>
     <ClInclude Include="..\src\TextSearch.h">

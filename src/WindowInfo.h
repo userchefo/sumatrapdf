@@ -14,6 +14,7 @@ class Notifications;
 class StressTest;
 struct WatchedFile;
 class SumatraUIAutomationProvider;
+struct TabData;
 
 /* Describes actions which can be performed by mouse */
 enum MouseAction {
@@ -83,6 +84,11 @@ public:
     HWND            hwndPageBox;
     HWND            hwndPageBg;
     HWND            hwndPageTotal;
+
+    HWND            hwndTabBar;
+    // keeps the sequence of tab selection. This is needed for restoration 
+    // of the previous tab when the current one is closed.
+    Vec<TabData *> *tabSelectionHistory;
 
     // state related to table of contents (PDF bookmarks etc.)
     HWND            hwndTocBox;
