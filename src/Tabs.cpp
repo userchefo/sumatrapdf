@@ -42,11 +42,11 @@ void SaveTabData(WindowInfo *win, TabData **tdata)
     (*tdata)->showToc = win->tocVisible;
 
     (*tdata)->dm = win->dm;
-    win->dm = NULL;
+    win->dm = NULL;         // prevent this data deletion
     if (!(*tdata)->title)
         (*tdata)->title = win::GetText(win->hwndFrame);
     (*tdata)->userAnnots = win->userAnnots;
-    win->userAnnots = NULL;
+    win->userAnnots = NULL;    // prevent this data deletion
     (*tdata)->userAnnotsModified = win->userAnnotsModified;
 }
 
@@ -168,7 +168,10 @@ void TabsOnCloseWindow(WindowInfo *win, bool cleanUp)
         UpdateTabWidth(win);
         if (count > 1) {
             tdata = win->tabSelectionHistory->Pop();
+            ManageFullScreen(win, true);
+            UpdateCurrentFileDisplayStateForWin(SumatraWindow::Make(win));
             LoadModelIntoTab(win, tdata);
+            ManageFullScreen(win, false);
             TabCtrl_SetCurSel(win->hwndTabBar, FindTabIndex(win->hwndTabBar, tdata));
         }
     }
@@ -183,6 +186,7 @@ LRESULT TabsOnNotify(WindowInfo *win, UINT notification)
     case TCN_SELCHANGING:
         // TODO: Should we allow the switch of the tab if we are in process of printing?
 
+        ManageFullScreen(win, true);
         SaveCurrentTabData(win);
         return FALSE;
 
@@ -190,6 +194,7 @@ LRESULT TabsOnNotify(WindowInfo *win, UINT notification)
         {
             int current = TabCtrl_GetCurSel(win->hwndTabBar);
             LoadModelIntoTab(win, GetTabData(win->hwndTabBar, current));
+            ManageFullScreen(win, false);
         }
         break;
     }
@@ -215,3 +220,35 @@ void UpdateTabWidth(WindowInfo *win)
     }
 }
 
+
+// Selects the next tab.
+void TabsOnCtrlTab(WindowInfo *win)
+{
+    int count = TabCtrl_GetItemCount(win->hwndTabBar);
+    if (count < 2) return;
+
+    if (FALSE != TabsOnNotify(win, TCN_SELCHANGING)) return;
+
+    int current = TabCtrl_GetCurSel(win->hwndTabBar);
+    //if (-1 == current) return;
+
+    TabCtrl_SetCurSel(win->hwndTabBar, ++current == count ? 0 : current);
+    TabsOnNotify(win, TCN_SELCHANGE);
+}
+
+
+void ManageFullScreen(WindowInfo *win, bool exitFullScreen)
+{
+    static bool prevFullScreen, prevPresentation;
+
+    if (exitFullScreen) {
+        prevFullScreen = win->isFullScreen;
+        prevPresentation = win->presentation != PM_DISABLED;
+        if (prevFullScreen || prevPresentation)
+            ExitFullScreen(*win);
+    }
+    else {     // enter fullscreen
+        if (prevFullScreen || prevPresentation)
+            EnterFullScreen(*win, prevPresentation);
+    }
+}

@@ -166,8 +166,6 @@ static FileExistenceChecker *       gFileExistenceChecker = NULL;
 
 static void UpdateUITextForLanguage();
 static void UpdateToolbarAndScrollbarState(WindowInfo& win);
-static void EnterFullScreen(WindowInfo& win, bool presentation=false);
-static void ExitFullScreen(WindowInfo& win);
 static LRESULT CALLBACK WndProcCanvas(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 bool HasPermission(int permission)
@@ -3669,7 +3667,7 @@ static void OnMenuGoToPage(WindowInfo& win)
         win.dm->GoToPage(newPageNo, 0, true);
 }
 
-static void EnterFullScreen(WindowInfo& win, bool presentation)
+void EnterFullScreen(WindowInfo& win, bool presentation)
 {
     if (!HasPermission(Perm_FullscreenAccess))
         return;
@@ -3729,7 +3727,7 @@ static void EnterFullScreen(WindowInfo& win, bool presentation)
     gGlobalPrefs->showFavorites = showFavoritesTmp;
 }
 
-static void ExitFullScreen(WindowInfo& win)
+void ExitFullScreen(WindowInfo& win)
 {
     if (!win.isFullScreen && !win.presentation)
         return;
@@ -3848,6 +3846,11 @@ bool FrameOnKeydown(WindowInfo *win, WPARAM key, LPARAM lparam, bool inTextfield
 {
     bool isCtrl = IsCtrlPressed();
     bool isShift = IsShiftPressed();
+
+    if (gGlobalPrefs->showTabBar && isCtrl && VK_TAB == key) {
+        TabsOnCtrlTab(win);
+        return true;
+    }
 
     if ((VK_LEFT == key || VK_RIGHT == key) &&
         isShift && isCtrl &&
@@ -4168,7 +4171,7 @@ static void ResizeSidebar(WindowInfo *win)
     if (gGlobalPrefs->showToolbar && !win->isFullScreen && !win->presentation)
         y = WindowRect(win->hwndReBar).dy;
     if (gGlobalPrefs->showTabBar && !win->isFullScreen && !win->presentation)
-        y += TABBAR_HEIGHT;
+        y += IsWindowVisible(win->hwndTabBar) ? TABBAR_HEIGHT : 0;
     totalDy -= y;
 
     // rToc.y is always 0, as rToc is a ClientRect, so we first have
@@ -4212,7 +4215,7 @@ static void ResizeFav(WindowInfo *win)
     if (gGlobalPrefs->showToolbar && !win->isFullScreen && !win->presentation)
         y = WindowRect(win->hwndReBar).dy;
     if (gGlobalPrefs->showTabBar && !win->isFullScreen && !win->presentation)
-        y += TABBAR_HEIGHT;
+        y += IsWindowVisible(win->hwndTabBar) ? TABBAR_HEIGHT : 0;
     totalDy -= y;
 
     // rToc.y is always 0, as rToc is a ClientRect, so we first have
@@ -4378,7 +4381,7 @@ void SetSidebarVisibility(WindowInfo *win, bool tocVisible, bool showFavorites)
 
     int tabBarDy = 0;
     if (gGlobalPrefs->showTabBar && !win->isFullScreen && !win->presentation)
-        tabBarDy = TABBAR_HEIGHT;
+        tabBarDy = IsWindowVisible(win->hwndTabBar) ? TABBAR_HEIGHT : 0;
 
     int dy = rFrame.dy - (toolbarDy + tabBarDy);
 

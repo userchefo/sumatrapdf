@@ -32,7 +32,9 @@ void CreateTabbar(WindowInfo *win);
 void TabsOnLoadedDoc(WindowInfo *win);
 void TabsOnCloseWindow(WindowInfo *win, bool cleanUp);
 LRESULT TabsOnNotify(WindowInfo *win, UINT notification);
+void TabsOnCtrlTab(WindowInfo *win);
 
 void ShowOrHideTabbar(WindowInfo *win, int command);
 void UpdateTabWidth(WindowInfo *win);
+void ManageFullScreen(WindowInfo *win, bool exitFullScreen);
 
