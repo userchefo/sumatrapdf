@@ -5570,7 +5570,7 @@ InitMouseWheelInfo:
         case WM_NOTIFY:
             if (wParam == IDC_TABBAR) {
                 if (win)
-                    return TabsOnNotify(win, ((LPNMHDR)lParam)->code);
+                    return TabsOnNotify(win, lParam);
             }
             return DefWindowProc(hwnd, msg, wParam, lParam);
 

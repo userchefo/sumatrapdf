@@ -519,7 +519,7 @@ $(OS)\TableOfContents.obj: $B\src\utils\Vec.h $B\src\utils\WinUtil.h $B\src\Wind
 $(OS)\Tabs.obj: $B\src\resource.h $B\src\SumatraPDF.h
 $(OS)\Tabs.obj: $B\src\TableOfContents.h $B\src\Tabs.h
 $(OS)\Tabs.obj: $B\src\WindowInfo.h
-$(OS)\Tabs.obj: $B\src\utils\BaseUtil.h $B\src\utils\WinUtil.h
+$(OS)\Tabs.obj: $B\src\utils\BaseUtil.h $B\src\utils\GdiPlusUtil.h $B\src\utils\WinUtil.h
 $(OS)\Tester.obj: $B\src\BaseEngine.h $B\src\Doc.h $B\src\EbookBase.h
 $(OS)\Tester.obj: $B\src\EbookFormatter.h $B\src\HtmlFormatter.h $B\src\MobiDoc.h
 $(OS)\Tester.obj: $B\src\mui\Mui.h $B\src\mui\MuiBase.h $B\src\mui\MuiButton.h
